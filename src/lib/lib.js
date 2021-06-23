@@ -8,3 +8,5 @@ const isString = is('string')
 const isArray = is('array')
 const isUndef = is('undefined')
 
+
+const loop = data => f => Object.values(data).map((d, i) => f(d, i, data))
