@@ -26,6 +26,6 @@ const dateStore = initDate().store
 dateStore.subscribe(
     () => renderTo(
         document.querySelector("#app"),
-        App(dateStore.store)
+        App(dateStore)
     )
 )
