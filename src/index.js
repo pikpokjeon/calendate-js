@@ -1,17 +1,18 @@
 import { App } from './app.js';
 import { renderTo } from './lib/lib.js'
 import { Store } from './lib/store.js'
-import { getWeekDay, getToday, getCalendar } from './lib/date.js';
+import { getWeekDay, getToday, getCalendar, date } from './lib/date.js';
 
 
 const initDate = () =>
 {
     const today = getToday()
-    const weekDate = getWeekDay(today.dates)
+    const initMonth = date(today.year, today.month)
+    const weekDate = getWeekDay(initMonth)
     const lists = getCalendar(today.dates, today.month, 1, [], weekDate.prefix)
 
     const store = Store({
-        lists,
+        lists: lists,
         selected: [],
         month: today.month,
         year: today.year,
