@@ -29,3 +29,15 @@ const getCalendar = (date, month, i, weeks, week) =>
     return getCalendar(date, month, i, weeks, week)
 
 }
+
+const getToday = () =>
+{
+    const dates = new Date(Date.now())
+    return {
+        dates, date: now.getDate(), day: now.getDay(), month: now.getMonth(), year: now.getFullYear(),
+    }
+}
+
+const date = (year, month, day) => new Date(year, month, day ?? 1)
+
+export { weekDay, getCalendar, getToday, date }
