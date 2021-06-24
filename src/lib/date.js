@@ -1,15 +1,31 @@
-
-const weekDayKo = (date) => date.toLocaleDateString('ko-KR', { weekday: 'long' }).split(' ').reverse()[0][0]
-
-const daysOfMonth = (date, m, i, arr) =>
+const weekDay = date =>
 {
-    if (date.getMonth() === m)
+    const weekDays = ['월', '화', '수', '목', '금', '토', '일']
+    const today = date.toLocaleDateString('ko-KR', { weekday: 'long' }).split(' ').reverse()[0][0]
+    const idx = weekDay => weekDays.indexOf(weekDay)
+    const prefix = weekDays.concat(Array(idx(today)).fill(''))
+
+    return { today: today, preGap: idx(today), prefix }
+}
+
+const getCalendar = (date, month, i, weeks, week) =>
+{
+    const limit = 6
+
+    if (date.getMonth() !== month)
     {
-        if (i === 1) arr.push(weekDayKo(date))
-        arr.push(i)
-        date.setDate(date.getDate() + 1)
-        i++
-        return daysOfMonth(date, m, i, arr)
+        weeks.push(week)
+        return weeks
     }
-    return arr
+
+    if (week.length > limit)
+    {
+        weeks.push(week.filter((_, i) => i <= limit))
+        week = [...week.filter((_, i) => i > limit)]
+    }
+
+    week.push(i), i++, date.setDate(i)
+
+    return getCalendar(date, month, i, weeks, week)
+
 }
