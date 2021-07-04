@@ -1,10 +1,9 @@
 const getWeekDay = date =>
 {
-    const weekDays = ['월', '화', '수', '목', '금', '토', '일']
+    const weekDays = ['일', '월', '화', '수', '목', '금', '토',]
     const today = date.toLocaleDateString('ko-KR', { weekday: 'long' }).split(' ').reverse()[0][0]
     const idx = date.getDay()
     const prefix = weekDays.concat(Array(idx).fill(''))
-
     return { today: today, preGap: idx, prefix }
 }
 
@@ -12,6 +11,7 @@ const getCalendar = (date, month, i, weeks, week) =>
 {
 
     const limit = 6
+    month = month < 0 ? 11 : month > 11 ? 0 : month
     if (date.getMonth() !== month)
     {
         weeks.push(week)
@@ -25,7 +25,6 @@ const getCalendar = (date, month, i, weeks, week) =>
     }
 
     week.push(i), i++, date.setDate(i)
-
     return getCalendar(date, month, i, weeks, week)
 
 }
@@ -46,24 +45,6 @@ const getToday = () =>
     }
 }
 
-const updateDate = (date, year, month, i) =>
-{
-    if (month + i < 12 || month + i > -1) date.setMonth(month + i)
-    if (month + i < 0) date.setYear(year - 1)
-
-    const d = date
-    const weekDate = getWeekDay(d)
-    const lists = getCalendar(date, month + i, 1, [], weekDate.prefix)
-    console.log(date, year, month, i)
-    return ({
-        lists: lists,
-        month: date.getMonth(),
-        year: date.getFullYear(),
-        day: date.getDate(),
-        dates: date,
-    })
-}
-
 
 const initDate = () =>
 {
@@ -73,7 +54,7 @@ const initDate = () =>
     const lists = getCalendar(initDates, today.month, 1, [], weekDate.prefix)
     return ({
         lists: lists,
-        month: today.month,
+        month: today.month + 1,
         year: today.year,
         day: today.date,
         dates: initDates,
@@ -81,4 +62,4 @@ const initDate = () =>
 }
 
 
-export { getWeekDay, getCalendar, getToday, date, initDate, updateDate }
+export { getWeekDay, getCalendar, getToday, date, initDate }
