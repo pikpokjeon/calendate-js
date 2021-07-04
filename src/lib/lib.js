@@ -70,6 +70,8 @@ const createElement = (tag, attr, children) =>
     return el
 }
 
+// const createSVG = (el,)
+
 const create = (tag, initProps) =>
 {
     // 아래 예시와 같이 돔트리를 구성할 수 있게
@@ -96,6 +98,7 @@ const create = (tag, initProps) =>
     return constructor
 
 }
+
 const mount = (target, comp) =>
 {
     comp.subscribe(() =>
@@ -114,4 +117,6 @@ const renderTo = (target, comp) =>
 const fragment = (children) => setChildren(document.createDocumentFragment(), children);
 
 
-export { loop, If, fragment, create, renderTo, mount, }
+const pipe = (initVal, ...fns) => fns.reduce((returned, fn) => fn(returned), initVal)
+
+export { loop, If, fragment, create, renderTo, mount, pipe }

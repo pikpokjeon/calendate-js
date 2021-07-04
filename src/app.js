@@ -1,5 +1,5 @@
 import { fragment, create, loop, If, pipe } from "./lib/lib"
-import { getWeekDay, getCalendar, getToday, date } from './lib/date'
+import { getWeekDay, getCalendar, getToday, datem, updateDate } from './lib/date'
 
 const ul = create('ul', { id: "date-ul" })
 const li = create('li', { class: 'date-li' })
@@ -16,14 +16,11 @@ const App = (store) =>
     const changeMonth = (i, month, dates) => { dates.setMonth(month + i); return dates }
 
     const handleDates = store.action(
-        (i, { year, month, day, dates }) => ({
-            lists: getCalendar(changeMonth(i, month, dates), month, 1, [], weekDay(changeMonth(i, month, dates)).prefix),
-            year: year,
-            month: month + i,
-            dates
-        }))
+        (i, { year, month, day, dates }) =>
+            updateDate(dates, year, month, i)
+    )
 
-    const { dates, year, month, lists, selected } = store.getState()
+    const { dates, year, month, lists } = store.getState()
 
     const calendar = lists.map(week =>
         li(week.map(day =>

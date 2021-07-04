@@ -11,10 +11,10 @@ const Store = (initialState) =>
     }
 
     const getState = () => Object.assign({}, innerState.state)
-
     const setState = stateUpdates =>
     {
         innerState.state = Object.assign(Object.assign({}, innerState.state), stateUpdates);
+        console.log(innerState.state)
         notify();
     }
     const action = f => (...args) => setState(f(...args, getState()) ?? {})
@@ -26,6 +26,5 @@ const Store = (initialState) =>
 
     return { subscribe, getState, setState, action }
 }
-
 
 export { Store }

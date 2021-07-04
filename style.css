@@ -1,0 +1,15 @@
+.date-ul{
+    padding-inline-start: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.date-li{
+          display: flex;
+    flex-wrap: nowrap;
+    width: 70vw;
+}
+.day{
+      width: 10vw;
+    text-align: center;
+}
