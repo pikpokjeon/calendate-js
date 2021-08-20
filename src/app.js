@@ -29,13 +29,27 @@ const App = (store) =>
     )
 
     const { year, month, lists } = store.getState()
-
+    const save = (e) => {
+        console.log(e)
+    }
     const calendar = lists.map(week =>
         li(week.map(day =>
-            p({ class: 'day' }, `${day}`))))
+            div({class:'day'},[span({ class: `day-${day}`, 'data-action':save}, `${day}`)])
+            )))
 
     const button = ({ i, onChangeDate }) =>
         b({ onclick: () => onChangeDate(i) }, i < 0 ? '<' : '>')
+
+    const onSelectDate = store.action((e,{selected}) =>{
+        const date = e.path[0].outerText
+        selected.turn = selected.start < 0 ? 'start' : 'end'
+
+        if(selected.start >  0 && selected.end > 0){
+            return({selected:{start:date, end:-1, turn: selected.turn}})
+        }
+        else return ({selected:{...selected, [selected.turn] : date, turn:  selected.turn,}})
+    })
+
 
     return fragment(
         [
@@ -45,7 +59,7 @@ const App = (store) =>
             button({ i: -1, onChangeDate: handleDates }),
             button({ i: 1, onChangeDate: handleDates }),
             div([
-                ul([...calendar])
+                ul({onclick:onSelectDate},[...calendar])
             ])
         ])
 }
