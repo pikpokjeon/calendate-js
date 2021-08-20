@@ -41,13 +41,20 @@ const App = (store) =>
         b({ onclick: () => onChangeDate(i) }, i < 0 ? '<' : '>')
 
     const onSelectDate = store.action((e,{selected}) =>{
-        const date = e.path[0].outerText
-        selected.turn = selected.start < 0 ? 'start' : 'end'
-
-        if(selected.start >  0 && selected.end > 0){
-            return({selected:{start:date, end:-1, turn: selected.turn}})
+        const date = Number(e.path[0].outerText)
+        const {start,end,period} = selected
+        const isAllSelected = selected.start >  0 && selected.end > 0
+        if(isAllSelected)
+        {
+            return({selected:{ ...selected,period:[Array(start+end).fill(Math.min(start,end)).map(n => n+1)]}})
         }
-        else return ({selected:{...selected, [selected.turn] : date, turn:  selected.turn,}})
+        else
+        {
+            selected.turn = start < 0 ? 'start' : end < 0 ? 'end' : 'end'
+            const temp = selected[selected.turn] > 0 ?  selected[selected.turn]  : 10
+            return({selected: {...selected,[selected.turn]: date}})
+        }
+            
     })
 
 
